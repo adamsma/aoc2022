@@ -18,8 +18,12 @@ maxCalories <- function(dataFile, n = 1){
 
 # sample data
 maxCalories("../data/day1_sample.txt")
+maxCalories("../data/day1_sample.txt", n = 3) |> 
+  summarize(topCalories = sum(calories))
 
 # part 1 
-maxCalories("../data/day1_part1.txt", 3)
+maxCalories("../data/day1_part1.txt")
 
 # part 2 
+maxCalories("../data/day1_part1.txt", n = 3) |> 
+  summarize(topCalories = sum(calories))
