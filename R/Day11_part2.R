@@ -182,3 +182,44 @@ sampleRounds |>
   pluck(1) |> 
   calcMonkeyBusiness() |> 
   print()
+
+# part 2
+data <- "../data/day11.txt" |> 
+  readProfiles()
+
+part2Items <- data |> 
+  map(extractStartItems)
+
+part2Monkeys <- data |> 
+  map(newMonkey)
+
+# convert inventories to use indexes instead of scores
+# add worryLevels
+currIndex <- 0
+for(i in seq_along(part2Monkeys)){
+  
+  indices <- seq_along(part2Monkeys[[i]]$inventory) + currIndex
+  currIndex <- currIndex + length(indices)
+  
+  part2Monkeys[[i]]$inventory <- indices
+  part2Monkeys[[i]]$worryLevels <- unlist(part2Items)
+  
+}
+
+part2Rounds <- simRounds(part2Monkeys, NROUNDS) |> 
+  set_names(
+    paste0("Round ", seq(from = 0, to = NROUNDS))
+  )
+
+part2ItemCts <- part2Rounds |>  
+  map(
+    ~map(.x, "processedCt") |> 
+      set_names(paste0("Monkey ", seq_along(part2Monkeys) - 1)) 
+  ) 
+
+
+part2Rounds |>
+  tail(1) |> 
+  pluck(1) |> 
+  calcMonkeyBusiness() |> 
+  print()
